@@ -1,0 +1,86 @@
+{
+    "title": "",
+    "items": [
+        {
+            "image": "image_0.png",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "106f8698-e6a5-409f-870b-f0e7be57b1c7",
+                    "x": 121,
+                    "y": 135.5,
+                    "width": 195,
+                    "height": 164,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "c6f6c075-ad96-4a84-b028-f67400d4d7d4",
+                    "x": 479,
+                    "y": 423.5,
+                    "width": 147,
+                    "height": 109,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        },
+        {
+            "image": "image_1.png",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "f8415c9c-0cbe-4e43-9928-0b940cfeae5e",
+                    "x": 388,
+                    "y": 167.5,
+                    "width": 118,
+                    "height": 118,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "1cac66df-0f3f-4f93-820e-d017ac501e2b",
+                    "x": 608,
+                    "y": 441.5,
+                    "width": 79,
+                    "height": 79,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        },
+        {
+            "image": "image_2.png",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "b69e52d3-838b-4f23-95dd-9492d4ecefeb",
+                    "x": 211,
+                    "y": 143.5,
+                    "width": 197,
+                    "height": 98,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "08d4811d-70f7-43e9-8661-dc72d2c6d2d8",
+                    "x": 494,
+                    "y": 357.5,
+                    "width": 124,
+                    "height": 130,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "622f85c7-e6e4-4ccf-b40e-88005f21b05a",
+                    "x": 642,
+                    "y": 199.5,
+                    "width": 97,
+                    "height": 62,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        }
+    ]
+}

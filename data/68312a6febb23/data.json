@@ -1,0 +1,53 @@
+{
+    "title": "あああ",
+    "items": [
+        {
+            "image": "image_0.png",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "af282ea7-0003-4197-872f-2cdfb6fb2eee",
+                    "x": 287,
+                    "y": 144.5,
+                    "width": 213,
+                    "height": 174,
+                    "text": "あああ",
+                    "comments": []
+                },
+                {
+                    "id": "743a7193-2a7b-4c49-91c0-288f8992e90a",
+                    "x": 672,
+                    "y": 366.5,
+                    "width": 56,
+                    "height": 168,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        },
+        {
+            "image": "image_1.png",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "d1e1c629-2159-4fff-a2c2-bbc7b211bc7d",
+                    "x": 336,
+                    "y": 208.5,
+                    "width": 173,
+                    "height": 177,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "88388812-d95d-4915-8b87-a30359967615",
+                    "x": 603,
+                    "y": 501.5,
+                    "width": 125,
+                    "height": 100,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        }
+    ]
+}

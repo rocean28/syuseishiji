@@ -1,0 +1,11 @@
+【React入門】忙しい人のためのReactチュートリアル【2025年更新版】
+https://qiita.com/r-terao/items/fa150ec297e90d4d94d4
+
+スクショのためのライブラリをインストール
+npm install html2canvas
+
+◯buildするとき
+下記、本番用コードに切り替え
+Main.tsx
+vite.config.ts
+.env
