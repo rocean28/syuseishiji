@@ -23,35 +23,14 @@ if (!is_array($dataRaw) || !isset($dataRaw['items'])) {
 
 $groupTitle = $dataRaw['title'] ?? '';
 $items = $dataRaw['items'];
+
+include('header.php');
 ?>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <title><?= htmlspecialchars($groupTitle ?: '修正指示ビュー') ?></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    integrity="sha512-dRnfUO/VwPpMBNdTeKgInHXP0YI4+7heH9+zAAuPco+DfXL+81Slk3T+1bR6XeZfLgOYlH5rcjQ8lxLGMGdg3g=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .highlight { outline: 4px solid gold; z-index: 10; }
-    .rect:hover { cursor: pointer; }
-  </style>
-</head>
-<body class="bg-gray-50 text-gray-800 p-6">
-  <h1 class="text-xl font-semibold mb-4">
-    <?= htmlspecialchars($groupTitle ?: '修正指示ビュー') ?>
-  </h1>
+<h2 class="heading-lv2 mb-20"><?= htmlspecialchars($groupTitle ?: '修正指示ビュー') ?></h2>
 
   <div class="mb-4">
-    <a href="http://localhost:5173/editor?id=<?= htmlspecialchars($id) ?>"
-       class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-      編集画面へ
+    <a href="http://localhost:5173/editor?id=<?= htmlspecialchars($id) ?>" class="btn-blue">
+      編集する
     </a>
   </div>
 

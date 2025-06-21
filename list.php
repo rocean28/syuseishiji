@@ -25,35 +25,33 @@ foreach (glob("$dataDir/*", GLOB_ONLYDIR) as $dir) {
     'thumb' => $thumb,
   ];
 }
-?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>修正指示一覧</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-800 p-6">
-<?php
 include('header.php');
 ?>
-  <h1 class="text-2xl font-semibold mb-6">修正指示一覧</h1>
-  <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-    <?php foreach ($items as $item): ?>
-      <a href="view.php?id=<?= htmlspecialchars($item['id']) ?>" class="block bg-white rounded shadow hover:shadow-lg transition p-4">
-        <?php if ($item['thumb']): ?>
-          <img src="<?= $item['thumb'] ?>" alt="" class="w-full h-48 object-contain mb-3 bg-gray-50 rounded">
-        <?php else: ?>
-          <div class="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500 mb-3 rounded">
+
+<h2 class="heading-lv2 mb-20">作成履歴</h2>
+<ul class="cardList">
+  <?php foreach ($items as $item): ?>
+    <li class="cardList__item">
+      <a href="view.php?id=<?= htmlspecialchars($item['id']) ?>" class="cardList__item-inner card pd-10">
+        <div class="cardList__image mb-5">
+          <?php if ($item['thumb']): ?>
+          <img src="<?= $item['thumb'] ?>" alt="" class="object-fit object-cover rounded">
+          <?php else: ?>
+          <div class="mb-5 rounded bg-gray">
             No Image
           </div>
-        <?php endif; ?>
-        <div class="text-lg font-medium truncate"><?= htmlspecialchars($item['title']) ?></div>
-        <!-- <div class="text-sm text-gray-500">ID: <?= htmlspecialchars($item['id']) ?></div> -->
+          <?php endif; ?>
+        </div>
+        <div class="cardList__text">
+          <div class="fsz-14"><?= htmlspecialchars($item['title']) ?></div>
+          <div class="text-gray fsz-14 text-right">ID: <?= htmlspecialchars($item['id']) ?></div>
+        </div>
       </a>
-    <?php endforeach; ?>
-  </div>
-</body>
-</html>
+    </li>
+  <?php endforeach; ?>
+</ul>
+<?php
+include('footer.php');
+?>
+

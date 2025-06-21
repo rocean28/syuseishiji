@@ -1,0 +1,29 @@
+{
+    "title": "てｓｔ",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "b275b9a0-371b-4441-af0a-c8f4d840969a",
+                    "x": 69,
+                    "y": 78.5,
+                    "width": 113,
+                    "height": 126,
+                    "text": "あ",
+                    "comments": []
+                },
+                {
+                    "id": "88a9fbdb-7ad3-4117-859e-cafdbf02141b",
+                    "x": 302,
+                    "y": 275.5,
+                    "width": 79,
+                    "height": 115,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        }
+    ]
+}

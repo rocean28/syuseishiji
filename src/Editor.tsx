@@ -5,7 +5,7 @@ import ImageUploader from './components/ImageUploader';
 import CanvasWithRects from './components/CanvasWithRects';
 import InstructionList from './components/InstructionList';
 import type { Instruction, ImageWithInstructions } from './types';
-import { FaPen, FaTimes } from 'react-icons/fa';
+import { FaPen } from 'react-icons/fa';
 
 const Editor: React.FC = () => {
   const [images, setImages] = useState<ImageWithInstructions[]>([]);
@@ -53,17 +53,6 @@ const Editor: React.FC = () => {
     setActiveImageId(newId);
   };
 
-  const handleDeleteImage = (id: string) => {
-    const confirmed = window.confirm('この画像を削除してもよろしいですか？元に戻せません。');
-    if (!confirmed) return;
-
-    setImages((prev) => prev.filter((img) => img.id !== id));
-    if (activeImageId === id) {
-      const remaining = images.filter((img) => img.id !== id);
-      setActiveImageId(remaining[0]?.id || null);
-    }
-  };
-
   const handleUpdateInstructions = (imageId: string, newInstructions: Instruction[]) => {
     setImages((prev) =>
       prev.map((img) =>
@@ -77,9 +66,7 @@ const Editor: React.FC = () => {
     const newTitle = prompt('画像タイトルを入力してください', current?.title || '');
     if (newTitle !== null) {
       setImages((prev) =>
-        prev.map((img) =>
-          img.id === id ? { ...img, title: newTitle } : img
-        )
+        prev.map((img) => (img.id === id ? { ...img, title: newTitle } : img))
       );
     }
   };
@@ -91,11 +78,22 @@ const Editor: React.FC = () => {
 
     const jsonData = {
       title,
-      items: images.map((img, index) => ({
-        image: `image_${index}.png`,
-        title: img.title,
-        instructions: img.instructions,
-      })),
+      items: images.map((img, index) => {
+        let ext = 'png';
+        if (img.imageFile?.name) {
+          const match = img.imageFile.name.match(/\.(\w+)$/);
+          if (match) ext = match[1];
+        } else {
+          const urlMatch = img.imageUrl.match(/\.(\w+)(\?.*)?$/);
+          if (urlMatch) ext = urlMatch[1];
+        }
+
+        return {
+          image: `image_${index}.${ext}`,
+          title: img.title,
+          instructions: img.instructions,
+        };
+      }),
     };
 
     const formData = new FormData();
@@ -118,7 +116,6 @@ const Editor: React.FC = () => {
         body: formData,
       });
       const data = await res.json();
-
       if (data.success && data.id) {
         window.location.href = `${appUrl}/view.php?id=${data.id}`;
       } else {
@@ -133,99 +130,88 @@ const Editor: React.FC = () => {
   const activeImage = images.find((img) => img.id === activeImageId);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
+    <div className="wrap">
       <Header />
-      <main className="p-6">
-        <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">タイトル</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-200 max-w-md px-3 py-2 rounded text-sm"
-            placeholder="案件名"
-          />
-        </div>
+      <main className="main">
+        <div className="editorBlock">
+          <h2 className="heading-lv2 mb-20">編集</h2>
 
-        <div className="flex space-x-2 mb-4 flex-wrap">
-          {images.map((img, index) => (
-            <div key={img.id} className="relative">
-              <button
-                onClick={() => setActiveImageId(img.id)}
-                className={`px-3 py-1 rounded-t ${
-                  img.id === activeImageId
-                    ? 'bg-white border-b-0 border-gray-300 font-bold'
-                    : 'bg-gray-200 text-gray-600'
-                }`}
-              >
-                {img.title !== '' ? img.title : `画像 ${index + 1}`}
-              </button>
-              <button
-                onClick={() => handleEditImageTitle(img.id)}
-                className="absolute right-6 top-0 text-xs px-1 text-blue-600 hover:text-blue-800"
-                title="タイトルを編集"
-              >
-                <FaPen size={12} />
-              </button>
-              <button
-                onClick={() => handleDeleteImage(img.id)}
-                className="absolute right-0 top-0 text-xs px-1 text-red-500 hover:text-red-700"
-                title="画像を削除"
-              >
-                <FaTimes size={12} />
-              </button>
+          <div className="w-400 mb-30">
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full rounded pd-5"
+              placeholder="案件名"
+            />
+          </div>
+
+          <div className="w-full flex justify-end mt-30">
+            <div onClick={handleSaveAll} className="btn-blue">
+              保存する
             </div>
-          ))}
-          <button
-            onClick={() => setActiveImageId(null)}
-            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            ＋
-          </button>
-        </div>
+          </div>
 
-        {activeImageId === null ? (
-          <ImageUploader onUpload={handleImageUpload} />
-        ) : activeImage ? (
-          <>
-            <div className="flex gap-4">
-              <div className="flex-1 bg-white rounded-lg p-4 shadow-sm">
-                <CanvasWithRects
-                  imageUrl={activeImage.imageUrl}
-                  instructions={activeImage.instructions}
-                  setInstructions={(newInstructions: SetStateAction<Instruction[]>) => {
-                    const updated =
-                      typeof newInstructions === 'function'
-                        ? newInstructions(activeImage.instructions)
-                        : newInstructions;
-                    handleUpdateInstructions(activeImage.id, updated);
-                  }}
-                />
+          <div className="tabs">
+            {images.map((img, index) => (
+              <div key={img.id} className={`tab ${img.id === activeImageId ? 'active' : ''}`}>
+                <div onClick={() => setActiveImageId(img.id)}>
+                  {img.title || `ページ ${index + 1}`}
+                </div>
+                <div
+                  onClick={() => handleEditImageTitle(img.id)}
+                  className="tabIcon flex-center rounded"
+                  title="タイトルを編集"
+                >
+                  <FaPen size={12} />
+                </div>
               </div>
-              <div className="w-96 bg-white rounded-lg p-4 shadow-sm">
-                <InstructionList
-                  instructions={activeImage.instructions}
-                  setInstructions={(newInstructions: SetStateAction<Instruction[]>) => {
-                    const updated =
-                      typeof newInstructions === 'function'
-                        ? newInstructions(activeImage.instructions)
-                        : newInstructions;
-                    handleUpdateInstructions(activeImage.id, updated);
-                  }}
-                />
-              </div>
+            ))}
+            <div onClick={() => setActiveImageId(null)} className="tab -add">
+              ＋
             </div>
+          </div>
 
-            <div className="mt-4">
-              <button
-                onClick={handleSaveAll}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                ✅ 完了
-              </button>
-            </div>
-          </>
-        ) : null}
+          {activeImageId === null ? (
+            <ImageUploader onUpload={handleImageUpload} />
+          ) : activeImage ? (
+            <>
+              <div className="flex gap-4">
+                <div className="w-1500 card pd-10">
+                  <CanvasWithRects
+                    imageUrl={activeImage.imageUrl}
+                    instructions={activeImage.instructions}
+                    setInstructions={(newInstructions: SetStateAction<Instruction[]>) => {
+                      const updated =
+                        typeof newInstructions === 'function'
+                          ? newInstructions(activeImage.instructions)
+                          : newInstructions;
+                      handleUpdateInstructions(activeImage.id, updated);
+                    }}
+                  />
+                </div>
+                <div className="card pd-10 insList">
+                  <InstructionList
+                    instructions={activeImage.instructions}
+                    setInstructions={(newInstructions: SetStateAction<Instruction[]>) => {
+                      const updated =
+                        typeof newInstructions === 'function'
+                          ? newInstructions(activeImage.instructions)
+                          : newInstructions;
+                      handleUpdateInstructions(activeImage.id, updated);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="w-full flex justify-end mt-30 mb-50">
+                <div onClick={handleSaveAll} className="btn-blue">
+                  保存する
+                </div>
+              </div>
+            </>
+          ) : null}
+        </div>
       </main>
     </div>
   );

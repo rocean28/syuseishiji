@@ -95,7 +95,7 @@ const CanvasWithRects: React.FC<Props> = ({
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
     >
-      <img src={imageUrl} alt="Uploaded" className="max-w-full block" />
+      <img src={imageUrl} alt="Uploaded" className="uploadedImage" />
 
       {/* ログで確認後、安全に描画 */}
       {Array.isArray(instructions) &&
@@ -103,8 +103,8 @@ const CanvasWithRects: React.FC<Props> = ({
           <div
             key={ins.id}
             id={`rect-${ins.id}`}
-            className={`absolute box-border border-2 border-blue-500 pointer-events-none text-md text-blue-500 font-bold bg-opacity-90 px-1 ${
-              highlightedId === ins.id ? 'ring-4 ring-yellow-400 z-10' : ''
+            className={`fixArea ${
+              highlightedId === ins.id ? 'active' : ''
             }`}
             style={{
               top: ins.y,
@@ -113,13 +113,13 @@ const CanvasWithRects: React.FC<Props> = ({
               height: ins.height,
             }}
           >
-            {index + 1}
+            <span className="num">{index + 1}</span>
           </div>
         ))}
 
       {currentRect && (
         <div
-          className="absolute border-2 border-blue-500 bg-blue-200 bg-opacity-20 pointer-events-none"
+          className="fixArea"
           style={{
             top: currentRect.y,
             left: currentRect.x,

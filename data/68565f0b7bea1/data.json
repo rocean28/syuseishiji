@@ -1,0 +1,44 @@
+{
+    "title": "sample",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "59548ff2-5662-43d0-854f-b1fdb9431900",
+                    "x": 683,
+                    "y": 401.40625,
+                    "width": 296,
+                    "height": 133,
+                    "text": "削除",
+                    "comments": []
+                },
+                {
+                    "id": "0a6b6504-5526-41bf-b661-51b3828a9ce6",
+                    "x": 624,
+                    "y": 615.40625,
+                    "width": 305,
+                    "height": 307,
+                    "text": "削除",
+                    "comments": []
+                }
+            ]
+        },
+        {
+            "image": "image_1.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "58974c86-6ff9-4ca2-98b9-208ab530ec0e",
+                    "x": 399,
+                    "y": 228.40625,
+                    "width": 280,
+                    "height": 217,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+@use '_utilities' as *;
+@use 'sass:map';
+
+/* parts
+------------------------------*/
+.card {
+  display: block;
+  background: #fff;
+  border-radius: 4px;
+  @extend .shadow;
+}
+
+.imageUploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 350px);
+  border: 2px dashed #ccc;
+  padding: 30px 15px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+[class*="btn-"] {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-blue {
+  background: #155DFC;
+  color: #fff;
+  &:hover {
+    background: #0f48c3;
+  }
+}
+.btn-gray {
+  background: #efefef;
+  &:hover {
+    background: #d1d1d1;
+  }
+}

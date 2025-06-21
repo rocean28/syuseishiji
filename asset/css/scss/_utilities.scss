@@ -1,0 +1,179 @@
+/* settings
+------------------------------*/
+$base_color: #07355c;
+$font_ja: "Noto Sans JP", sans-serif;
+$font_eng: "Montserrat", sans-serif;
+
+$siteColor: #023e7c;
+$gray: #767676;
+$lightgray: #efefef;
+$yellow: #ffe100;
+$blue: blue;
+
+/* layout
+------------------------------*/
+.container {
+  max-width: 1230px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+
+.flex {
+  display: flex;
+}
+.flex-center {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.align-center {
+  align-items: center;
+}
+.align-end {
+  align-items: flex-end;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+.flex-shrink {
+  flex-shrink: 1;
+}
+@for $i from 1 through 50 {
+  $val: $i * 5;
+  .gap-#{$val}   {gap: #{$val}px; }
+}
+
+/* width
+------------------------------*/
+.w-full {
+  width: 100%;
+}
+@for $i from 10 through 2000 {
+  $val: $i * 5;
+  .w-#{$val}   {width: 100%; max-width: #{$val}px; }
+}
+
+/* height
+------------------------------*/
+.h-full {
+  height: 100%;
+}
+
+/* margin & padding
+------------------------------*/
+@for $i from 0 through 30 {
+  $val: $i * 5;
+
+  .pd-#{$val}   { padding: #{$val}px; }
+  .pt-#{$val}   { padding-top: #{$val}px; }
+  .pb-#{$val}   { padding-bottom: #{$val}px; }
+  .pl-#{$val}   { padding-left: #{$val}px; }
+  .pr-#{$val}   { padding-right: #{$val}px; }
+  .px-#{$val}   { padding-inline: #{$val}px; }
+  .py-#{$val}   { padding-top: #{$val}px; padding-bottom: #{$val}px; }
+
+  .m-#{$val}    { margin: #{$val}px; }
+  .mt-#{$val}   { margin-top: #{$val}px; }
+  .mb-#{$val}   { margin-bottom: #{$val}px; }
+  .ml-#{$val}   { margin-left: #{$val}px; }
+  .mr-#{$val}   { margin-right: #{$val}px; }
+  .mx-#{$val}   { margin-inline: #{$val}px; }
+  .my-#{$val}   { margin-top: #{$val}px; margin-bottom: #{$val}px; }
+}
+
+/* font
+------------------------------*/
+@for $i from 10 through 100 {
+  $val: $i * 0.1;
+  .fsz-#{$i}   {font-size: #{$val}rem; }
+}
+
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+.text-gray {
+  color: $gray;
+}
+
+/*
+------------------------------*/
+.border-gray {
+  border: 1px solid $lightgray;
+}
+
+/* shadow
+------------------------------*/
+@mixin shadow($color: #000) {
+  box-shadow: 0 1px 3px 0 rgba($color, 0.1), 0 1px 2px -1px rgba($color, 0.1);
+}
+.shadow {
+  @include shadow;
+}
+
+/* headding
+------------------------------*/
+.heading-lv1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.heading-lv2 {
+  font-size: 2.6rem;
+  font-weight: 700;
+}
+.heading-lv3 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.heading-lv4 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* background
+------------------------------*/
+.bg-gray {
+  background: #ccc;
+}
+
+/*
+------------------------------*/
+.rounded {
+  border-radius: 4px;
+}
+
+/*
+------------------------------*/
+.object-fit {
+  width: 100%;
+  height: 100%;
+}
+.object-contain {
+  object-fit: contain;
+}
+.object-cover {
+  object-fit: cover;
+}
+
+.hidden {
+  display: none!important;
+}
+
+.relative {
+  position: relative;
+}

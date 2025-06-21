@@ -8,7 +8,7 @@ type Props = {
 };
 
 const InstructionItem: React.FC<Props> = ({ instruction, setInstructions, index }) => {
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(instruction.text === '');
   const [text, setText] = useState(instruction.text);
 
   useEffect(() => {
@@ -33,8 +33,8 @@ const InstructionItem: React.FC<Props> = ({ instruction, setInstructions, index 
   };
 
   return (
-    <div className="mb-4 p-3 rounded shadow-sm bg-white">
-      <div className="text-sm text-gray-500 mb-1">指示 {index + 1}</div>
+    <div className="mb-20 rounded">
+      <div className="mb-5 fsz-15">指示 {index + 1}</div>
 
       {editMode ? (
         <div>
@@ -42,41 +42,41 @@ const InstructionItem: React.FC<Props> = ({ instruction, setInstructions, index 
             value={text}
             onChange={e => setText(e.target.value)}
             rows={3}
-            className="w-full p-2 rounded text-sm border border-gray-300"
+            className="w-full pd-5 rounded border"
           />
-          <div className="flex justify-end space-x-2 mt-2">
-            <button
+          <div className="flex gap-5 justify-end mt-2">
+            <div
               onClick={handleSaveEdit}
-              className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+              className="btn-blue fsz-13"
             >
               保存
-            </button>
-            <button
+            </div>
+            <div
               onClick={() => setEditMode(false)}
-              className="text-gray-500 hover:text-gray-700 text-sm"
+              className="btn-gray fsz-13"
             >
               キャンセル
-            </button>
+            </div>
           </div>
         </div>
       ) : (
-        <div className="flex justify-between items-start">
-          <p className="text-sm whitespace-pre-wrap flex-1">
-            {instruction.text || <em>（未入力）</em>}
+        <div className="mb-15">
+          <p className="w-full border-gray pd-10 mt-5 mb-5">
+            {instruction.text || <em class="fsz-13 text-gray">（未入力）</em>}
           </p>
-          <div className="flex flex-col items-end space-y-1">
-            <button
+          <div className="flex justify-end gap-5">
+            <div
               onClick={() => setEditMode(true)}
-              className="text-blue-600 hover:text-blue-800 text-sm"
+              className="btn-gray pd-5 fsz-13"
             >
-              ✏️
-            </button>
-            <button
+              <i class="text-gray fsz-13 fa-solid fa-pen"></i>入力する
+            </div>
+            <div
               onClick={handleDelete}
-              className="text-red-600 hover:text-red-800 text-sm"
+              className="btn-gray pd-5"
             >
-              🗑
-            </button>
+              <i class="text-gray fa-solid fa-trash"></i>
+            </div>
           </div>
         </div>
       )}

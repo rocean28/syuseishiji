@@ -26,21 +26,23 @@ const ImageUploader: React.FC<Props> = ({ onUpload }) => {
 
   return (
     <div
-      className={`h-[80vh] flex items-center justify-center transition-colors ${
-        isDragging ? 'bg-blue-100' : ''
+      className={`w-full flex-grow mt-10 ${
+        isDragging ? 'active' : ''
       }`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       onDragEnter={() => setIsDragging(true)}
       onDragLeave={() => setIsDragging(false)}
     >
-      <div className="border-2 border-dashed border-gray-400 p-8 rounded-md text-center max-w-lg w-full bg-white">
-        <p className="mb-4 text-gray-600">
+      <div className="imageUploader h-full">
+        <p className="mb-4 text-gray">
           画像をアップロードしてください。<br />
-          <span className="text-sm text-gray-400">(ドラッグ＆ドロップ対応)</span>
+        </p>
+        <p className="fsz-12 text-gray mb-10">
+          (ドラッグ＆ドロップ対応)
         </p>
 
-        <label className="inline-block bg-blue-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-700">
+        <label className="btn-blue">
           ファイルを選択
           <input
             type="file"

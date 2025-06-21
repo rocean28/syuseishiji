@@ -5,25 +5,19 @@ const Header: React.FC = () => {
   const appUrl = import.meta.env.VITE_APP_URL;
 
   return (
-    <header className="bg-white shadow sticky top-0 z-50">
-    <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold text-gray-800">修正指示ツール</h1>
-      <div className="space-x-4">
-        <a
-          href={`${apiBase}/`}
-          className="text-blue-600 hover:underline font-medium"
-        >
-          新規作成
+    <header className="header">
+      <h1 className="header__logo">
+        <a href={`${appUrl}/list.php`} className="header__logoLink">Syusei</a>
+      </h1>
+      <nav className="header__nav">
+        <a href={`${appUrl}/list.php`} className="header__navLink">
+          <i className="fa-solid fa-list-ul"></i>
         </a>
-        <a
-          href={`${appUrl}/list.php`}
-          className="text-blue-600 hover:underline font-medium"
-        >
-          一覧
+        <a href={`${apiBase}`} className="header__navLink btn-new">
+          <i className="fa-solid fa-plus"></i>
         </a>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
   );
 };
 
