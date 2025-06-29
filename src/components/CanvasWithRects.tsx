@@ -1,14 +1,21 @@
 import React, { useRef, useState, useEffect } from 'react';
 import type { Instruction } from '../types';
+import type { EditorMode } from '../types/EditorMode';
 
 type Props = {
+  mode: EditorMode;
   imageUrl: string;
   instructions: Instruction[] | any; // 型安全のため any にしてログ確認
   setInstructions: (newInstructions: Instruction[]) => void;
   highlightedId?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  created_by?: string;
 };
 
+
 const CanvasWithRects: React.FC<Props> = ({
+  mode,
   imageUrl,
   instructions,
   setInstructions,
@@ -29,6 +36,8 @@ const CanvasWithRects: React.FC<Props> = ({
   }, [highlightedId]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
+    if (mode === 'view') return;
+
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
     const x = e.clientX - rect.left;
@@ -47,6 +56,7 @@ const CanvasWithRects: React.FC<Props> = ({
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (mode === 'view') return;
     if (!isDrawing || !startPos) return;
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -90,7 +100,7 @@ const CanvasWithRects: React.FC<Props> = ({
 
   return (
     <div
-      className="relative inline-block cursor-crosshair"
+      className="width-1000 relative inline-block cursor-crosshair text-center js-responsiveElm"
       ref={containerRef}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -103,7 +113,7 @@ const CanvasWithRects: React.FC<Props> = ({
           <div
             key={ins.id}
             id={`rect-${ins.id}`}
-            className={`fixArea ${
+            className={`fix-area ${
               highlightedId === ins.id ? 'active' : ''
             }`}
             style={{
@@ -113,13 +123,13 @@ const CanvasWithRects: React.FC<Props> = ({
               height: ins.height,
             }}
           >
-            <span className="num">{index + 1}</span>
+            <span className="fix-area-num">{index + 1}</span>
           </div>
         ))}
 
       {currentRect && (
         <div
-          className="fixArea"
+          className="fix-area"
           style={{
             top: currentRect.y,
             left: currentRect.x,

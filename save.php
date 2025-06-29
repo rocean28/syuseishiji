@@ -21,6 +21,11 @@ function handleImageUpload($dir) {
 
     $index = str_replace('image_', '', $key);
     $instKey = "instructions_$index";
+    $tabTitleKey = "title_$index";
+    $urlKey = "url_$index";
+
+    $tabTitle = $_POST[$tabTitleKey] ?? '';
+    $url = $_POST[$urlKey] ?? '';
 
     if (!isset($_POST[$instKey])) {
       // logMessage("instructions_$index がPOSTに存在しません");
@@ -46,7 +51,8 @@ function handleImageUpload($dir) {
 
     $results[] = [
       'image' => $filename,
-      'title' => '',
+      'title' => $tabTitle,
+      'url' => $url,
       'instructions' => $instructions,
     ];
   }
@@ -83,6 +89,9 @@ if ($isUpdate) {
     exit;
   }
 
+  // updated_at を上書き
+  $decoded['updated_at'] = date('c');
+
   file_put_contents("$dir/data.json", json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
   // logMessage("json: $json");
   // logMessage("更新完了: ID=$groupId");
@@ -96,10 +105,13 @@ if ($isUpdate) {
 // 新規保存処理
 $title = $_POST['title'] ?? '';
 $dataList = handleImageUpload($dir);
-
+$now = date('c');
 file_put_contents("$dir/data.json", json_encode([
   'title' => $title,
   'items' => $dataList,
+  'created_at' => $now,
+  'updated_at' => $now,
+  'created_by' => $createdBy ?? 'guest',
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
 // logMessage("新規保存完了: ID=$groupId");

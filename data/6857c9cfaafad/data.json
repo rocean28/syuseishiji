@@ -1,0 +1,58 @@
+{
+    "title": "sample",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "aaa",
+            "instructions": [
+                {
+                    "id": "1ec176ce-071b-471e-9797-b62d5d4c10f8",
+                    "x": 427,
+                    "y": 265.40625,
+                    "width": 264,
+                    "height": 132,
+                    "text": "sadsdas",
+                    "comments": []
+                },
+                {
+                    "id": "5c648ebf-ba31-4936-9918-752a431ac28c",
+                    "x": 689,
+                    "y": 124.40625,
+                    "width": 144,
+                    "height": 90,
+                    "text": "",
+                    "comments": []
+                }
+            ],
+            "url": "http:\/\/localhost:5173\/create",
+            "created_by": "guest"
+        },
+        {
+            "image": "image_1.jpg",
+            "title": "bbb",
+            "instructions": [
+                {
+                    "id": "ab19f472-4560-4a7d-9eff-6e932bae40cf",
+                    "x": 187,
+                    "y": 29.40625,
+                    "width": 159,
+                    "height": 167,
+                    "text": "aaa",
+                    "comments": []
+                },
+                {
+                    "id": "9378d155-c950-4d03-9d50-cbfd0ef13f6f",
+                    "x": 530,
+                    "y": 415.40625,
+                    "width": 199,
+                    "height": 92,
+                    "text": "dsdfsds",
+                    "comments": []
+                }
+            ],
+            "url": "http:\/\/localhost:5173\/create\/2",
+            "created_by": "guest"
+        }
+    ],
+    "updated_at": "2025-06-22T10:07:43+00:00"
+}

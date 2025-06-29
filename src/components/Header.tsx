@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <a href={`${appUrl}/list.php`} className="header__navLink">
           <i className="fa-solid fa-list-ul"></i>
         </a>
-        <a href={`${apiBase}`} className="header__navLink btn-new">
+        <a href={`${apiBase}/create`} className="header__navLink btn-new">
           <i className="fa-solid fa-plus"></i>
         </a>
       </nav>

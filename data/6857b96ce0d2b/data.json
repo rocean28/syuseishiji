@@ -1,0 +1,32 @@
+{
+    "title": "ねこ",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "47283a55-95bb-4fdb-8cb9-ef999d38f048",
+                    "x": 239,
+                    "y": 106.40625,
+                    "width": 324,
+                    "height": 175,
+                    "text": "あああ",
+                    "comments": []
+                },
+                {
+                    "id": "f18a60a7-1ef9-444b-9a0e-6da026161e04",
+                    "x": 735,
+                    "y": 421.40625,
+                    "width": 202,
+                    "height": 98,
+                    "text": "ｄｄｄ",
+                    "comments": []
+                }
+            ],
+            "created_at": "2025-06-22T08:07:53.188Z",
+            "updated_at": "2025-06-22T08:09:19.596Z",
+            "created_by": "guest"
+        }
+    ]
+}

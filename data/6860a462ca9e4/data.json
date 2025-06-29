@@ -1,0 +1,89 @@
+{
+    "title": "",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "6dd30d13-65b5-4ace-98f7-0581fd2ce32b",
+                    "x": 464,
+                    "y": 168.40625,
+                    "width": 286,
+                    "height": 203,
+                    "text": "あああsadssssssssssssだｓｊでゃｗぐあｗだ」あああsadssssssssssssだｓｊでゃｗぐあｗだ」あああsadssssssssssssだｓｊでゃｗぐあｗだ」あああsadssssssssssssだｓｊでゃｗぐあｗだ」あああsadssssssssssssだｓｊでゃｗぐあｗだ」ｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓｓ",
+                    "comments": [],
+                    "isSaved": false
+                },
+                {
+                    "id": "7a61b2d2-9aee-4cf9-b1ac-0c06dfb02e14",
+                    "x": 670,
+                    "y": 211.40625,
+                    "width": 208,
+                    "height": 133,
+                    "text": "ｓだｓだｓｄｑｗ",
+                    "comments": [],
+                    "isSaved": false
+                },
+                {
+                    "id": "79ade980-d9fb-4626-a053-214954f70649",
+                    "x": 868,
+                    "y": 148.40625,
+                    "width": 137,
+                    "height": 96,
+                    "text": "3",
+                    "comments": [],
+                    "isSaved": false
+                },
+                {
+                    "id": "995bf5b7-8394-4627-937b-dbaf29e995b1",
+                    "x": 227,
+                    "y": 183.40625,
+                    "width": 116,
+                    "height": 154,
+                    "text": "sasあｓｄｑｗｑｗ",
+                    "comments": [],
+                    "isSaved": false
+                },
+                {
+                    "id": "851fc40f-2c93-42d7-a839-2fa110ee2b57",
+                    "x": 396,
+                    "y": 516.40625,
+                    "width": 228,
+                    "height": 141,
+                    "text": "ｄｄｄｄ",
+                    "comments": [],
+                    "isSaved": false
+                }
+            ],
+            "url": "",
+            "created_by": "guest"
+        },
+        {
+            "image": "image_1.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "f6d91939-b83f-4c23-8809-827e57b8ff93",
+                    "x": 681,
+                    "y": 139.40625,
+                    "width": 240,
+                    "height": 171,
+                    "text": "4",
+                    "comments": [],
+                    "isSaved": false
+                }
+            ],
+            "url": "",
+            "created_by": "guest"
+        },
+        {
+            "image": "image_2.jpg",
+            "title": "",
+            "instructions": [],
+            "url": "",
+            "created_by": "guest"
+        }
+    ],
+    "updated_at": "2025-06-29T02:40:40+00:00"
+}

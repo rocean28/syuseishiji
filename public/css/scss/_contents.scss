@@ -1,0 +1,227 @@
+@use '_utilities' as *;
+@use 'sass:map';
+
+/* header
+------------------------------*/
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+  background: #023e7c;
+  // background: linear-gradient(to right, #33b8c0, #023e7c);
+  color: #fff;
+  line-height: 1;
+  &__logo {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  &__logoLink {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  &__nav {
+    display: flex;
+    gap: 10px;
+  }
+  &__navLink {
+    display: block;
+    padding: 10px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: inherit;
+  }
+}
+
+/* parts
+------------------------------*/
+.card {
+  display: block;
+  background: #fff;
+  border-radius: 4px;
+  @extend .shadow;
+}
+
+.imageUploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 1300px;
+  height: calc(100vh - 350px);
+  border: 2px dashed #ccc;
+  padding: 30px 15px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+
+$btn-colors: (
+  blue: #155DFC,
+  red: #db3939,
+  gray: #efefef
+);
+[class*="btn-"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+  // カラーバリエーションをループで生成
+  @each $name, $color in $btn-colors {
+    &.btn-#{$name} {
+      background: $color;
+      @if $name == gray {
+        color: #333; // グレーだけ文字色を暗く
+      }
+      &:hover {
+        background: darken($color, 10%);
+      }
+    }
+  }
+}
+
+.btn-new {
+  padding: 10px;
+  background: #ffe100;
+  border-radius: 4px;
+  color: #07355c;
+  &:hover {
+    background: darken(#ffe100, 10%);
+  }
+}
+
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px 20px;
+  @media screen and (max-width: 1500px) {
+    grid-template-columns: repeat(3, 1fr);
+	}
+  &__item {
+    width: calc((100% / 4) - 20px);
+    min-width: 400px;
+  }
+  &__item-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  &__image {
+    aspect-ratio: 1 / 0.8;
+    min-height: 0;
+  }
+  &__text {
+    margin-top: auto;
+  }
+}
+
+/* 新規作成
+------------------------------*/
+// .editorBlock {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   width: 100%;
+//   margin: auto;
+// }
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  margin-left: 10px;
+}
+.tab {
+  padding: 4px 55px 4px 10px;
+  background: #efefef;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  opacity: 0.5;
+  cursor: pointer;
+  &.active {
+    opacity: 1;
+  }
+  &.-add {
+    background: $yellow;
+    padding-right: 10px;
+    opacity: 1;
+    &:hover {
+      background: darken($yellow, 3%);
+    }
+  }
+  .page-view & {
+		padding-right: 10px;
+	}
+}
+.tab-icon {
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  top: 6px;
+  right: 20px;
+  &.-trash {
+    width: 20px;
+    height: 20px;
+    top: 7px;
+    right: 2px;
+    color: $gray;
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+  &:hover {
+    background: #ccc;
+  }
+}
+
+.uploadedImage {
+  pointer-events: none;
+}
+
+.image-area {
+  width: calc(100vw - 400px);
+  max-width: fit-content;
+  min-width: 620px;
+}
+
+.fix-area {
+  border: 2px solid $blue;
+  position: absolute;
+  z-index: 99;
+  &.highlight {
+    background: rgba(lighten($blue, 20%), 0.1);
+    .num {
+      background: $yellow;
+    }
+  }
+}
+.fix-area-num {
+  display: inline-block;
+  padding: 2px 5px 5px;
+  background: $blue;
+  border-radius: 0 0 5px 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #fff;
+  line-height: 1;
+  font-size: 1.4rem;
+}
+
+
+.ins-list {
+  flex-shrink: 0;
+  width: 330px;
+  &__item {
+    // border: 1px solid $lightgray;
+  }
+  &__label {
+
+  }
+}

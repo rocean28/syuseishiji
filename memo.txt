@@ -9,3 +9,8 @@ npm install html2canvas
 Main.tsx
 vite.config.ts
 .env
+
+
+TODO
+・SQLite
+・ログイン機能

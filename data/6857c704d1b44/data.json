@@ -1,0 +1,39 @@
+{
+    "title": "",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "0f9886c7-5b59-42c7-aa82-f2aaa349eb1e",
+                    "x": 295,
+                    "y": 291.40625,
+                    "width": 245,
+                    "height": 139,
+                    "text": "aa",
+                    "comments": []
+                },
+                {
+                    "id": "d06b5e74-5587-467f-a061-fe0c0a0256b5",
+                    "x": 764,
+                    "y": 544.40625,
+                    "width": 197,
+                    "height": 98,
+                    "text": "",
+                    "comments": []
+                }
+            ],
+            "url": "",
+            "created_by": "guest"
+        },
+        {
+            "image": "image_1.jpg",
+            "title": "",
+            "instructions": [],
+            "url": "",
+            "created_by": "guest"
+        }
+    ],
+    "updated_at": "2025-06-22T09:06:51+00:00"
+}

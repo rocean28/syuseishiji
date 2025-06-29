@@ -22,8 +22,19 @@
                     "height": 307,
                     "text": "削除",
                     "comments": []
+                },
+                {
+                    "id": "e54e8ff2-4c7a-43fa-81c1-1498c511c362",
+                    "x": 173,
+                    "y": 134.40625,
+                    "width": 232,
+                    "height": 160,
+                    "text": "あああ",
+                    "comments": []
                 }
-            ]
+            ],
+            "url": "",
+            "created_by": "guest"
         },
         {
             "image": "image_1.jpg",
@@ -38,7 +49,27 @@
                     "text": "",
                     "comments": []
                 }
-            ]
+            ],
+            "url": "",
+            "created_by": "guest"
+        },
+        {
+            "image": "image_2.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "1b944ac1-4795-4b16-96a4-a4283c80f269",
+                    "x": 709,
+                    "y": 170.40625,
+                    "width": 290,
+                    "height": 143,
+                    "text": "",
+                    "comments": []
+                }
+            ],
+            "url": "",
+            "created_by": "guest"
         }
-    ]
+    ],
+    "updated_at": "2025-06-29T01:50:14+00:00"
 }

@@ -28,9 +28,9 @@ a:not([class]) {
 }
 a[class] {
   text-decoration: none;
-  &:hover {
-    opacity: 0.8;
-  }
+  // &:hover {
+  //   opacity: 0.8;
+  // }
 }
 
 /* input, textarea
@@ -40,6 +40,9 @@ textarea {
   border-radius: 4px;
   border: 1px solid #d1d9e0;
   background: #fff;
+}
+textarea {
+  field-sizing: content;
 }
 
 /* img

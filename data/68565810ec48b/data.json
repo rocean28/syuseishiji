@@ -6,24 +6,28 @@
             "title": "",
             "instructions": [
                 {
-                    "id": "6883a55a-8107-45e4-9409-00f59f9fd482",
-                    "x": 101,
-                    "y": 85.40625,
-                    "width": 148,
-                    "height": 115,
+                    "id": "c21e8ee0-14f1-45bd-83ca-fac462dc56fb",
+                    "x": 343,
+                    "y": 108.40625,
+                    "width": 285,
+                    "height": 169,
                     "text": "",
                     "comments": []
                 },
                 {
-                    "id": "87ba9e7a-0b8a-4971-8f21-c2dbfa61487f",
-                    "x": 443,
-                    "y": 230.40625,
-                    "width": 145,
-                    "height": 151,
-                    "text": "",
-                    "comments": []
+                    "id": "f6c9c39c-730b-41c6-a2a7-f6eb74c74e3d",
+                    "x": 660,
+                    "y": 158.40625,
+                    "width": 168,
+                    "height": 134,
+                    "text": "ｓｓ",
+                    "comments": [],
+                    "isSaved": false
                 }
-            ]
+            ],
+            "url": "",
+            "created_by": "guest"
         }
-    ]
+    ],
+    "updated_at": "2025-06-29T02:22:47+00:00"
 }

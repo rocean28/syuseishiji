@@ -18,6 +18,10 @@ $blue: blue;
   padding-inline: 15px;
 }
 
+.d-block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }
@@ -44,8 +48,8 @@ $blue: blue;
 .flex-grow {
   flex-grow: 1;
 }
-.flex-shrink {
-  flex-shrink: 1;
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
 @for $i from 1 through 50 {
   $val: $i * 5;
@@ -56,6 +60,9 @@ $blue: blue;
 ------------------------------*/
 .w-full {
   width: 100%;
+}
+.w-fit {
+  width: fit-content;
 }
 @for $i from 10 through 2000 {
   $val: $i * 5;
@@ -88,6 +95,9 @@ $blue: blue;
   .mr-#{$val}   { margin-right: #{$val}px; }
   .mx-#{$val}   { margin-inline: #{$val}px; }
   .my-#{$val}   { margin-top: #{$val}px; margin-bottom: #{$val}px; }
+}
+.mx-center {
+  margin-inline: auto;
 }
 
 /* font
@@ -148,7 +158,10 @@ $blue: blue;
 /* background
 ------------------------------*/
 .bg-gray {
-  background: #ccc;
+  background: $gray;
+}
+.bg-lightgray {
+  background: $lightgray;
 }
 
 /*
@@ -176,4 +189,8 @@ $blue: blue;
 
 .relative {
   position: relative;
+}
+
+.ofh {
+  overflow: hidden;
 }

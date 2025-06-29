@@ -33,7 +33,7 @@ include('header.php');
 <ul class="cardList">
   <?php foreach ($items as $item): ?>
     <li class="cardList__item">
-      <a href="view.php?id=<?= htmlspecialchars($item['id']) ?>" class="cardList__item-inner card pd-10">
+      <a href="http://localhost:5173/view/<?= htmlspecialchars($item['id']) ?>" class="cardList__item-inner card pd-10">
         <div class="cardList__image mb-5">
           <?php if ($item['thumb']): ?>
           <img src="<?= $item['thumb'] ?>" alt="" class="object-fit object-cover rounded">

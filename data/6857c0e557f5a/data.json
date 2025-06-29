@@ -1,0 +1,20 @@
+{
+    "title": "あああ",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "e5f39cae-0ab0-4638-8e3f-ddd96df1eed1",
+                    "x": 278,
+                    "y": 84.40625,
+                    "width": 207,
+                    "height": 116,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        }
+    ]
+}

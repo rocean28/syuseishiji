@@ -1,0 +1,43 @@
+{
+    "title": "",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "467e7b1d-ccc0-41f1-8dfc-06ea74407fce",
+                    "x": 427,
+                    "y": 124.40625,
+                    "width": 244,
+                    "height": 147,
+                    "text": "あ",
+                    "comments": [],
+                    "isSaved": false
+                },
+                {
+                    "id": "689dffd5-dafe-4708-86da-29f87b19151f",
+                    "x": 805,
+                    "y": 333.40625,
+                    "width": 163,
+                    "height": 119,
+                    "text": "ｓｓｓ",
+                    "comments": [],
+                    "isSaved": false
+                },
+                {
+                    "id": "130f460b-5a2a-485a-aa08-e1d23c91af2c",
+                    "x": 216,
+                    "y": 131.40625,
+                    "width": 120,
+                    "height": 137,
+                    "text": "",
+                    "comments": []
+                }
+            ],
+            "url": "",
+            "created_by": "guest"
+        }
+    ],
+    "updated_at": "2025-06-29T01:09:38+00:00"
+}

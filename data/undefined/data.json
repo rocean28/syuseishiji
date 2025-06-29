@@ -1,0 +1,29 @@
+{
+    "title": "",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "9a82ed5d-e69d-421d-87ef-2ad0e579eb0a",
+                    "x": 141,
+                    "y": 112.40625,
+                    "width": 252,
+                    "height": 153,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "75ff34b2-45ca-4f20-aad1-cf4782c6a018",
+                    "x": 738,
+                    "y": 339.40625,
+                    "width": 139,
+                    "height": 109,
+                    "text": "",
+                    "comments": []
+                }
+            ]
+        }
+    ]
+}

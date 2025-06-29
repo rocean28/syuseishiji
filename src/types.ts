@@ -6,6 +6,7 @@ export type Instruction = {
   height: number;
   text: string;
   comments: string[];
+  isSaved?: boolean;
 };
 
 export type ImageWithInstructions = {
@@ -14,5 +15,9 @@ export type ImageWithInstructions = {
   imageFile: File;
   instructions: Instruction[];
   title: string;
+  url?: string;
 };
 
+export type InstructionListRefType = {
+  setEditMode: (id: string, mode: boolean) => void;
+};
