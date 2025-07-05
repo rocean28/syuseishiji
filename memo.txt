@@ -12,5 +12,5 @@ vite.config.ts
 
 
 TODO
-・SQLite
 ・ログイン機能
+・画像エリアの拡大縮小

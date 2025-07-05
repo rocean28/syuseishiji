@@ -9,7 +9,9 @@
   align-items: center;
   padding: 5px 15px;
   background: #023e7c;
-  // background: linear-gradient(to right, #33b8c0, #023e7c);
+  position: sticky;
+  top: 0;
+  left: 0;
   color: #fff;
   line-height: 1;
   &__logo {
@@ -112,9 +114,13 @@ $btn-colors: (
     display: flex;
     flex-direction: column;
     height: 100%;
+    transition: transform .3s;
+    &:hover {
+      transform: translateY(-5px);
+    }
   }
   &__image {
-    aspect-ratio: 1 / 0.8;
+    aspect-ratio: 1 / 0.66;
     min-height: 0;
   }
   &__text {
@@ -185,8 +191,7 @@ $btn-colors: (
 }
 
 .image-area {
-  max-width: 1000px;
-  min-width: 800px;
+  width: 1000px;
   // width: calc(100vw - 400px);
   // max-width: fit-content;
   // min-width: 620px;
@@ -225,10 +230,4 @@ $btn-colors: (
 .ins-list {
   flex-shrink: 0;
   width: 330px;
-  &__item {
-    // border: 1px solid $lightgray;
-  }
-  &__label {
-
-  }
 }

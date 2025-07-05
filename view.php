@@ -1,114 +1,72 @@
 <?php
-$id = $_GET['id'] ?? '';
-if (!preg_match('/^[a-z0-9]+$/', $id)) {
+header('Access-Control-Allow-Origin: *');
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// SQLite接続
+$db = new PDO('sqlite:db/database.sqlite');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// ID取得
+$id = $_GET['id'] ?? null;
+
+if (!$id) {
   http_response_code(400);
-  echo "Invalid ID";
+  echo json_encode(['success' => false, 'error' => 'IDが指定されていません']);
   exit;
 }
 
-$dir = __DIR__ . "/data/$id";
-$dataFile = "$dir/data.json";
-if (!file_exists($dataFile)) {
+// groupsテーブルから基本情報取得
+$stmt = $db->prepare('SELECT * FROM groups WHERE id = ?');
+$stmt->execute([$id]);
+$group = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$group) {
   http_response_code(404);
-  echo "Data not found";
+  echo json_encode(['success' => false, 'error' => 'データが見つかりません']);
   exit;
 }
 
-$dataRaw = json_decode(file_get_contents($dataFile), true);
-if (!is_array($dataRaw) || !isset($dataRaw['items'])) {
-  http_response_code(500);
-  echo "Invalid data format";
-  exit;
+// images取得
+$stmt = $db->prepare('SELECT * FROM images WHERE group_id = ? ORDER BY id ASC');
+$stmt->execute([$id]);
+$images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 各画像に紐づくinstructionsを取得してマージ
+foreach ($images as &$img) {
+  $stmt = $db->prepare('SELECT * FROM instructions WHERE image_id = ? ORDER BY id ASC');
+  $stmt->execute([$img['id']]);
+  $img['instructions'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$groupTitle = $dataRaw['title'] ?? '';
-$items = $dataRaw['items'];
+// JSON形式に変換（React用構造に合わせる）
+$response = [
+  'id' => $group['id'],
+  'title' => $group['title'],
+  'created_at' => $group['created_at'],
+  'updated_at' => $group['updated_at'],
+  'created_by' => $group['created_by'],
+  'updated_by' => $group['updated_by'],
+  'images' => array_map(function ($img) {
+    return [
+      'image' => $img['image'],
+      'title' => $img['title'],
+      'url' => $img['url'],
+      'instructions' => array_map(function ($inst) {
+        return [
+          'id' => $inst['id'],
+          'x' => (int)$inst['x'],
+          'y' => (int)$inst['y'],
+          'width' => (int)$inst['width'],
+          'height' => (int)$inst['height'],
+          'text' => $inst['text'],
+          'comment' => $inst['comment'],
+        ];
+      }, $img['instructions']),
+    ];
+  }, $images)
+];
 
-include('header.php');
-?>
-<!-- 編集ボタン -->
-<div class="flex justify-end mb-10">
-  <a href="http://localhost:5173/edit/<?= htmlspecialchars($id) ?>" class="btn-blue">
-    編集する
-  </a>
-</div>
-
-<!-- タブ -->
-<div class="tabs">
-  <?php foreach ($items as $index => $item): ?>
-    <div class="tab <?= $index === 0 ? 'active' : '' ?>" data-tab="<?= $index ?>">
-      <?= htmlspecialchars($item['title'] ?: '画像 ' . ($index + 1)) ?>
-    </div>
-  <?php endforeach; ?>
-</div>
-
-<!-- 各画像＆指示表示 -->
-<?php foreach ($items as $index => $item): ?>
-  <div class="tab-content <?= $index !== 0 ? 'hidden' : '' ?>" data-content="<?= $index ?>">
-    <div class="flex gap-10">
-      <!-- 画像表示 -->
-      <div class="w-1500 card pd-10 relative bg-white">
-        <img src="data/<?= htmlspecialchars($id) ?>/<?= htmlspecialchars($item['image']) ?>" class="block max-w-full rounded" />
-        <?php foreach ($item['instructions'] as $i => $ins): ?>
-          <div
-            id="rect-<?= $index ?>-<?= $i ?>"
-            data-index="<?= $i ?>"
-            class="fix-area"
-            style="top:<?= $ins['y'] ?>px; left:<?= $ins['x'] ?>px; width:<?= $ins['width'] ?>px; height:<?= $ins['height'] ?>px;"
-          >
-            <span class="fix-area-num"><?= $i + 1 ?></span>
-          </div>
-        <?php endforeach; ?>
-      </div>
-
-      <!-- 修正指示一覧 -->
-      <div class="ins-list card pd-15 w-full">
-        <h3 class="ins-list__label mb-15 fsz-15">修正指示一覧（<?= count($item['instructions']) ?>件）</h3>
-        <ul class="space-y-4" id="instruction-list-<?= $index ?>">
-          <?php foreach ($item['instructions'] as $i => $ins): ?>
-            <li id="item-<?= $index ?>-<?= $i ?>" class="ofh mb-30 rounded fsz-13">
-              <div class="ins-list__num bg-lightgray py-5 px-15"> <?= $i + 1 ?></div>
-              <div class="ins-list__text pd-10 fsz-15"><?= htmlspecialchars($ins['text'] ?: '') ?></div>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
-    </div>
-  </div>
-<?php endforeach; ?>
-
-
-  <script>
-    // タブ切り替え
-    document.querySelectorAll('.tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab;
-        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.tab-content').forEach(c => {
-          c.classList.toggle('hidden', c.dataset.content !== tab);
-        });
-      });
-    });
-
-    // ハイライト連動
-    <?php foreach ($items as $tab => $item): ?>
-      <?php foreach ($item['instructions'] as $i => $ins): ?>
-        document.getElementById("rect-<?= $tab ?>-<?= $i ?>").addEventListener("click", () => {
-          const el = document.getElementById("item-<?= $tab ?>-<?= $i ?>");
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
-          document.querySelectorAll('.highlight').forEach(x => x.classList.remove('highlight'));
-          document.getElementById("rect-<?= $tab ?>-<?= $i ?>").classList.add('highlight');
-        });
-
-        document.getElementById("item-<?= $tab ?>-<?= $i ?>").addEventListener("click", () => {
-          const el = document.getElementById("rect-<?= $tab ?>-<?= $i ?>");
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
-          document.querySelectorAll('.highlight').forEach(x => x.classList.remove('highlight'));
-          el.classList.add('highlight');
-        });
-      <?php endforeach; ?>
-    <?php endforeach; ?>
-  </script>
-</body>
-</html>
+header('Content-Type: application/json');
+echo json_encode($response);

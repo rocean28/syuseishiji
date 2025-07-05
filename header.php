@@ -21,10 +21,10 @@ $viteUrl = $env['VITE_URL'];
 <div class="wrap">
 <header class="header">
   <h1 class="header__logo">
-    <a href="<?= $baseUrl ?>list.php" class="header__logoLink">Syusei</a>
+    <a href="<?= $viteUrl ?>/list/" class="header__logoLink">Syusei</a>
   </h1>
   <nav class="header__nav">
-    <a href="<?= $baseUrl ?>list.php" class="header__navLink"><i class="fa-solid fa-list-ul"></i></a>
+    <a href="<?= $viteUrl ?>/list/" class="header__navLink"><i class="fa-solid fa-list-ul"></i></a>
     <a href="<?= $viteUrl ?>/create/" class="header__navLink btn-new"><i class="fa-solid fa-plus"></i></a>
   </nav>
 </header>

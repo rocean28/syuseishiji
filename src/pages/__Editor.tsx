@@ -1,6 +1,8 @@
 // pages/Editor.tsx
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import type { SetStateAction } from 'react';
 import Header from '../components/Header';
 import ImageUploader from '../components/ImageUploader';
 import CanvasWithRects from '../components/CanvasWithRects';
@@ -11,13 +13,17 @@ import type { EditorModeProps } from '../types/EditorMode';
 
 type Props = EditorModeProps;
 
+// export type EditorMode = 'create' | 'edit' | 'view';
+// export type EditorModeProps = {
+//   mode: EditorMode;
+// };
+
 const Editor: React.FC<Props> = ({ mode }) => {
   const [images, setImages] = useState<ImageWithInstructions[]>([]);
   const [activeImageId, setActiveImageId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>('');
   const params = useParams();
   const navigate = useNavigate();
-
   const [id] = useState(() =>
     params.id ?? `group_${crypto.randomUUID().replace(/-/g, '')}`
   );
@@ -28,9 +34,10 @@ const Editor: React.FC<Props> = ({ mode }) => {
   const apiBase = import.meta.env.VITE_API_BASE;
   const appUrl = import.meta.env.VITE_APP_URL;
 
-  // 編集モード時の初期読み込み
+  // 編集モードなら初期データを読み込む
   useEffect(() => {
-    if ((mode !== 'edit' && mode !== 'view') || isNew) return;
+    if (mode !== 'edit' && mode !== 'view') return;
+    if (isNew) return;
 
     fetch(`${appUrl}/view.php?id=${id}`)
       .then((res) => res.json())
@@ -40,11 +47,11 @@ const Editor: React.FC<Props> = ({ mode }) => {
         const loaded = data.images.map((img: any, index: number) => ({
           id: `${id}_${index}`,
           imageName: img.image,
-          imageUrl: `${apiBase}/uploads/${id}/${img.image}`,
+          imageUrl: `${apiBase}/uploads/${id}/${img.image}`, // ← 画像パス
           imageFile: null,
           instructions: img.instructions || [],
           title: img.title || '',
-          url: img.url || '',
+          url: '', // DBに保存してなければ空にする（必要なら拡張）
           created_at: data.created_at || '',
           updated_at: data.updated_at || '',
           created_by: data.created_by || 'guest',
@@ -54,7 +61,9 @@ const Editor: React.FC<Props> = ({ mode }) => {
         setImages(loaded);
         if (loaded.length > 0) setActiveImageId(loaded[0].id);
       })
-      .catch((err) => console.error('読み込みエラー:', err));
+      .catch((err) => {
+        console.error('読み込みエラー:', err);
+      });
   }, [mode, params.id]);
 
   useEffect(() => {
@@ -95,71 +104,62 @@ const Editor: React.FC<Props> = ({ mode }) => {
     }
   };
 
-
   const handleSaveAll = async () => {
     const now = new Date().toISOString();
-    let hasChanges = false;
 
-    try {
-      const updatedImages = await Promise.all(images.map(async (img) => {
-        if (img.imageFile) {
-          // アップロード処理あり
-          const formData = new FormData();
-          formData.append('group_id', id);
-          formData.append('image', img.imageFile);
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      if (img.imageFile) {
+        const formData = new FormData();
+        formData.append('group_id', id);
+        formData.append('image', img.imageFile);
 
+        try {
           const res = await fetch(`${appUrl}/upload.php`, {
             method: 'POST',
-            body: formData,
+            body: formData
           });
 
           const result = await res.json();
           if (result.success && result.filename) {
-            hasChanges = true;
-            return {
-              ...img,
-              image: result.filename,
-              imageFile: null,
-            };
+            img.image = result.filename;
           } else {
             console.error('アップロード失敗:', result);
-            throw new Error('画像のアップロードに失敗しました');
+            alert('画像のアップロードに失敗しました');
+            return;
           }
-        } else {
-          return img; // ←このまま返す（変更なし）
+        } catch (e) {
+          console.error('画像アップロードエラー:', e);
+          alert('画像のアップロード中にエラーが発生しました');
+          return;
         }
-      }));
-
-      // setImages は変更があったときだけ
-      const imagesChanged = updatedImages.some((img, i) => img !== images[i]);
-      if (imagesChanged) {
-        setImages(updatedImages);
       }
+    }
 
-
-      const payload = {
-        id,
-        title: title.trim() || '無題の修正指示',
-        created_at: now,
-        updated_at: now,
-        created_by: 'guest',
-        updated_by: 'guest',
-        images: updatedImages.map((img) => ({
-          image: img.image || img.imageName,
-          title: img.title || '',
-          url: img.url || '',
-          instructions: img.instructions.map((inst) => ({
-            id: inst.id,
-            x: inst.x,
-            y: inst.y,
-            width: inst.width,
-            height: inst.height,
-            text: inst.text || '',
-            comment: inst.comment || ''
-          }))
+    const payload = {
+      id: id || undefined,
+      title: title.trim() || '無題の修正指示',
+      created_at: now,
+      updated_at: now,
+      created_by: 'guest',
+      updated_by: 'guest',
+      images: images.map((img) => ({
+        image: img.image || img.imageName,
+        title: img.title || '',
+        url: img.url || '',
+        instructions: img.instructions.map((inst) => ({
+          id: inst.id,
+          x: inst.x,
+          y: inst.y,
+          width: inst.width,
+          height: inst.height,
+          text: inst.text || '',
+          comment: inst.comment || ''
         }))
-      };
+      }))
+    };
 
+    try {
       const res = await fetch(`${appUrl}/save.php`, {
         method: 'POST',
         headers: {
@@ -175,10 +175,9 @@ const Editor: React.FC<Props> = ({ mode }) => {
         console.error(result);
         alert('保存に失敗しました');
       }
-
     } catch (e) {
       console.error(e);
-      alert(e instanceof Error ? e.message : '保存中にエラーが発生しました');
+      alert('保存中にエラーが発生しました');
     }
   };
 
@@ -186,7 +185,7 @@ const Editor: React.FC<Props> = ({ mode }) => {
     try {
       await navigator.clipboard.writeText(window.location.href);
       alert('URLをコピーしました');
-    } catch {
+    } catch (err) {
       alert('コピーに失敗しました');
     }
   };
@@ -199,6 +198,8 @@ const Editor: React.FC<Props> = ({ mode }) => {
     if (!confirmed) return;
 
     setImages((prev) => prev.filter((img) => img.id !== activeImageId));
+
+    // 次のアクティブ画像を設定（または null）
     const next = images.find((img) => img.id !== activeImageId);
     setActiveImageId(next?.id || null);
   };
@@ -209,18 +210,18 @@ const Editor: React.FC<Props> = ({ mode }) => {
     if (!confirmed) return;
 
     try {
+      const formData = new FormData();
+      formData.append('id', id);
+
       const res = await fetch(`${appUrl}/delete.php`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id }),
+        body: formData,
       });
 
       const result = await res.json();
       if (result.success) {
         alert('削除しました');
-        navigate('/list/');
+        navigate('/list.php'); // 一覧ページへ
       } else {
         alert('削除に失敗しました: ' + (result.error || ''));
       }
@@ -229,7 +230,6 @@ const Editor: React.FC<Props> = ({ mode }) => {
       alert('通信エラーが発生しました');
     }
   };
-
 
   const activeImage = images.find((img) => img.id === activeImageId);
 

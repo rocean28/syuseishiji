@@ -1,57 +1,36 @@
 <?php
-$dataDir = __DIR__ . '/data';
-$items = [];
+header('Access-Control-Allow-Origin: *');
 
-// フォルダを走査
-foreach (glob("$dataDir/*", GLOB_ONLYDIR) as $dir) {
-  $id = basename($dir);
-  $jsonPath = "$dir/data.json";
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-  if (!file_exists($jsonPath)) continue;
+// SQLite接続
+$db = new PDO('sqlite:db/database.sqlite');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  $json = json_decode(file_get_contents($jsonPath), true);
-  if (!is_array($json) || !isset($json['title']) || !isset($json['items'])) continue;
+// groupsを取得
+$stmt = $db->prepare('SELECT * FROM groups ORDER BY updated_at DESC');
+$stmt->execute();
+$groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  $title = $json['title'] ?: '（無題）';
-  $thumb = '';
+$results = [];
 
-  if (isset($json['items'][0]['image'])) {
-    $thumb = "data/$id/" . htmlspecialchars($json['items'][0]['image']);
-  }
+foreach ($groups as $group) {
+  // 代表画像1件取得（画像がなければnull）
+  $stmt = $db->prepare('SELECT image FROM images WHERE group_id = ? ORDER BY id ASC LIMIT 1');
+  $stmt->execute([$group['id']]);
+  $image = $stmt->fetchColumn();
 
-  $items[] = [
-    'id' => $id,
-    'title' => $title,
-    'thumb' => $thumb,
+  $results[] = [
+    'id' => $group['id'],
+    'title' => $group['title'],
+    'created_at' => $group['created_at'],
+    'updated_at' => $group['updated_at'],
+    'created_by' => $group['created_by'],
+    'updated_by' => $group['updated_by'],
+    'image' => $image ?: null
   ];
 }
 
-include('header.php');
-?>
-
-<h2 class="heading-lv2 mb-20">作成履歴</h2>
-<ul class="cardList">
-  <?php foreach ($items as $item): ?>
-    <li class="cardList__item">
-      <a href="http://localhost:5173/view/<?= htmlspecialchars($item['id']) ?>" class="cardList__item-inner card pd-10">
-        <div class="cardList__image mb-5">
-          <?php if ($item['thumb']): ?>
-          <img src="<?= $item['thumb'] ?>" alt="" class="object-fit object-cover rounded">
-          <?php else: ?>
-          <div class="mb-5 rounded bg-gray">
-            No Image
-          </div>
-          <?php endif; ?>
-        </div>
-        <div class="cardList__text">
-          <div class="fsz-14"><?= htmlspecialchars($item['title']) ?></div>
-          <div class="text-gray fsz-14 text-right">ID: <?= htmlspecialchars($item['id']) ?></div>
-        </div>
-      </a>
-    </li>
-  <?php endforeach; ?>
-</ul>
-<?php
-include('footer.php');
-?>
-
+header('Content-Type: application/json');
+echo json_encode($results);

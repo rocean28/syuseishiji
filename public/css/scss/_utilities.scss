@@ -195,6 +195,9 @@ $blue: blue;
 .object-cover {
   object-fit: cover;
 }
+.object-top {
+  object-position: top center;
+}
 
 .hidden {
   display: none!important;

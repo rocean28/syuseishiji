@@ -1,123 +1,88 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+file_put_contents('debug_save.log', file_get_contents('php://input'));
+
+// CORS対応
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+  header('Access-Control-Allow-Headers: Content-Type');
+  header('Access-Control-Max-Age: 86400'); // 24時間キャッシュ
+  exit;
+}
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-$baseDir = __DIR__ . '/data';
-$logFile = __DIR__ . '/log.txt';
+try {
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
 
-// ログ出力用関数
-function logMessage($message) {
-  global $logFile;
-  $timestamp = date('[Y-m-d H:i:s]');
-  file_put_contents($logFile, "$timestamp $message\n", FILE_APPEND);
-}
-
-// 画像アップロード + 指示データ取得関数
-function handleImageUpload($dir) {
-  $results = [];
-
-  foreach ($_FILES as $key => $file) {
-    if (strpos($key, 'image_') !== 0) continue;
-
-    $index = str_replace('image_', '', $key);
-    $instKey = "instructions_$index";
-    $tabTitleKey = "title_$index";
-    $urlKey = "url_$index";
-
-    $tabTitle = $_POST[$tabTitleKey] ?? '';
-    $url = $_POST[$urlKey] ?? '';
-
-    if (!isset($_POST[$instKey])) {
-      // logMessage("instructions_$index がPOSTに存在しません");
-      continue;
-    }
-
-    $instructions = json_decode($_POST[$instKey], true);
-    if (!is_array($instructions)) {
-      // logMessage("instructions_$index の形式が不正");
-      continue;
-    }
-
-    $ext = pathinfo($file['name'], PATHINFO_EXTENSION) ?: 'png';
-    $filename = "image_$index.$ext";
-    $destination = "$dir/$filename";
-
-    if (move_uploaded_file($file['tmp_name'], $destination)) {
-      // logMessage("画像保存成功: $filename");
-    } else {
-      // logMessage("画像保存失敗: $filename (エラーコード: {$file['error']})");
-      continue;
-    }
-
-    $results[] = [
-      'image' => $filename,
-      'title' => $tabTitle,
-      'url' => $url,
-      'instructions' => $instructions,
-    ];
+  if (!$data) {
+    throw new Exception('JSONが無効です');
   }
 
-  return $results;
-}
+  $db = new PDO('sqlite:db/database.sqlite');
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// === 本処理開始 ===
-// logMessage('=== 処理開始 ===');
+  $id = $data['id'] ?? ('group_' . uniqid('', true));
+  $title = trim($data['title'] ?? '');
+  if ($title === '') $title = '無題の修正指示';
 
-if (!file_exists($baseDir)) {
-  mkdir($baseDir, 0777, true);
-  // logMessage("ディレクトリ作成: $baseDir");
-}
+  // groups テーブルに保存
+  $stmt = $db->prepare('INSERT OR REPLACE INTO groups (id, title, created_at, updated_at, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?)');
+  $stmt->execute([
+    $id,
+    $title,
+    $data['created_at'] ?? '',
+    $data['updated_at'] ?? '',
+    $data['created_by'] ?? 'guest',
+    $data['updated_by'] ?? 'guest'
+  ]);
 
-$isUpdate = !empty($_POST['id']);
-$groupId = $isUpdate ? preg_replace('/[^a-z0-9]/', '', $_POST['id']) : uniqid();
-$dir = "$baseDir/$groupId";
+  // images・instructions の旧データ削除（編集時）
+  $stmtDeleteInstructions = $db->prepare('DELETE FROM instructions WHERE image_id IN (SELECT id FROM images WHERE group_id = ?)');
+  $stmtDeleteInstructions->execute([$id]);
 
-if (!file_exists($dir)) {
-  mkdir($dir, 0777, true);
-  // logMessage("グループディレクトリ作成: $dir");
-}
+  $stmtDeleteImages = $db->prepare('DELETE FROM images WHERE group_id = ?');
+  $stmtDeleteImages->execute([$id]);
 
-if ($isUpdate) {
-  $json = $_POST['json'] ?? '';
-  $decoded = json_decode($json, true);
+  // images テーブルに保存
+  $stmtImage = $db->prepare('INSERT INTO images (group_id, image, title, url) VALUES (?, ?, ?, ?)');
+  $stmtInstruction = $db->prepare('INSERT INTO instructions (image_id, x, y, width, height, text, comment) VALUES (?, ?, ?, ?, ?, ?, ?)');
 
-  if (!is_array($decoded) || !isset($decoded['title']) || !isset($decoded['items'])) {
-    http_response_code(400);
-    $error = 'Invalid JSON structure';
-    // logMessage("エラー: $error");
-    echo json_encode(['error' => $error]);
-    exit;
+  foreach ($data['images'] as $img) {
+    $imageFile = $img['image'] ?? '';
+    if (!$imageFile) throw new Exception('画像ファイル名が指定されていません');
+
+    $stmtImage->execute([
+      $id,
+      $imageFile,
+      $img['title'] ?? '',
+      $img['url'] ?? ''
+    ]);
+
+    $imageId = $db->lastInsertId();
+
+    foreach ($img['instructions'] as $inst) {
+      $stmtInstruction->execute([
+        $imageId,
+        $inst['x'],
+        $inst['y'],
+        $inst['width'],
+        $inst['height'],
+        $inst['text'] ?? '',
+        $inst['comment'] ?? ''
+      ]);
+    }
   }
 
-  // updated_at を上書き
-  $decoded['updated_at'] = date('c');
-
-  file_put_contents("$dir/data.json", json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-  // logMessage("json: $json");
-  // logMessage("更新完了: ID=$groupId");
-
-  handleImageUpload($dir); // 新規画像があれば保存
-
-  echo json_encode(['success' => true, 'id' => $groupId]);
-  exit;
+  echo json_encode(['success' => true, 'id' => $id]);
+} catch (Exception $e) {
+  http_response_code(500);
+  echo json_encode([
+    'success' => false,
+    'error' => $e->getMessage()
+  ]);
 }
-
-// 新規保存処理
-$title = $_POST['title'] ?? '';
-$dataList = handleImageUpload($dir);
-$now = date('c');
-file_put_contents("$dir/data.json", json_encode([
-  'title' => $title,
-  'items' => $dataList,
-  'created_at' => $now,
-  'updated_at' => $now,
-  'created_by' => $createdBy ?? 'guest',
-], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-// logMessage("新規保存完了: ID=$groupId");
-
-echo json_encode([
-  'success' => true,
-  'id' => $groupId,
-]);
-exit;
