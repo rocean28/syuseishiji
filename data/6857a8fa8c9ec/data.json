@@ -22,8 +22,20 @@
                     "height": 106,
                     "text": "ｓｓｓ",
                     "comments": []
+                },
+                {
+                    "id": "e8469ba2-6382-4d92-beba-a0dac4a8e648",
+                    "x": 383.5,
+                    "y": 684.40625,
+                    "width": 217,
+                    "height": 164,
+                    "text": "",
+                    "comments": []
                 }
-            ]
+            ],
+            "url": "",
+            "created_by": "guest"
         }
-    ]
+    ],
+    "updated_at": "2025-07-05T00:46:37+00:00"
 }

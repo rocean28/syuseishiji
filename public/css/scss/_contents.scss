@@ -185,9 +185,16 @@ $btn-colors: (
 }
 
 .image-area {
-  width: calc(100vw - 400px);
-  max-width: fit-content;
-  min-width: 620px;
+  max-width: 1000px;
+  min-width: 800px;
+  // width: calc(100vw - 400px);
+  // max-width: fit-content;
+  // min-width: 620px;
+  box-sizing: unset;
+  img {
+    width: 100%;
+    min-width: 100%;
+  }
 }
 
 .fix-area {

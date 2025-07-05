@@ -4,11 +4,20 @@
         {
             "image": "image_0.jpg",
             "title": "",
+            "instructions": [
+                {
+                    "id": "94eb4989-26c1-4403-a486-b053fe026292",
+                    "x": 686.5,
+                    "y": 103.40625,
+                    "width": 150,
+                    "height": 129,
+                    "text": "",
+                    "comments": []
+                }
+            ],
             "url": "",
-            "instructions": []
+            "created_by": "guest"
         }
     ],
-    "created_at": "2025-06-29T02:26:07+00:00",
-    "updated_at": "2025-06-29T02:26:07+00:00",
-    "created_by": "guest"
+    "updated_at": "2025-06-29T03:29:48+00:00"
 }

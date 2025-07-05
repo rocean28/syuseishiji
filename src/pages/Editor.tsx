@@ -257,7 +257,7 @@ const Editor: React.FC<Props> = ({ mode }) => {
                   保存する
                 </div>
               ) : (
-                <Link to={`/edit/${id}`} className="btn-blue">
+                <Link to={`/edit/${id}`} className="btn-gray">
                   編集する
                 </Link>
               )}
@@ -304,7 +304,7 @@ const Editor: React.FC<Props> = ({ mode }) => {
             ) : activeImage ? (
             <>
               <div className="w-full flex gap-10">
-                <div className="image-area card pd-10">
+                <div className="image-area flex-shrink-0 card pd-10">
                   <div className="flex gap-5 mb-10 fsz-12 text-gray">
                     <div className="flex-shrink-0">ページURL:</div>
                     {mode !== 'view' ?(

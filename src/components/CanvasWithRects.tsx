@@ -100,12 +100,12 @@ const CanvasWithRects: React.FC<Props> = ({
 
   return (
     <div
-      className="width-1000 relative inline-block cursor-crosshair text-center js-responsiveElm"
+      className="relative inline-block cursor-crosshair text-center"
       ref={containerRef}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
     >
-      <img src={imageUrl} alt="Uploaded" className="uploadedImage" />
+      <img src={imageUrl} alt="Uploaded" className="uploadedImage" style={{ minWidth: '1000px' }} />
 
       {/* ログで確認後、安全に描画 */}
       {Array.isArray(instructions) &&

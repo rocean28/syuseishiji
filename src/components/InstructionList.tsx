@@ -113,7 +113,7 @@ const InstructionList: React.FC<Props> = ({ mode, instructions, setInstructions 
         );
       })}
 
-      {instructions.length === 0 && (
+      {instructions.length === 0 && mode !== 'view' && (
         <p className="fsz-12">※画像の上でドラッグして指示を作成してください。</p>
       )}
     </div>

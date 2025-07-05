@@ -1,0 +1,50 @@
+{
+    "title": "",
+    "items": [
+        {
+            "image": "image_0.jpg",
+            "title": "",
+            "instructions": [
+                {
+                    "id": "554c9d32-b4c7-4321-b0dd-125735acc4bb",
+                    "x": 802.5,
+                    "y": 45.40625,
+                    "width": 176,
+                    "height": 58,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "c5ab4b32-19d3-45d9-bb68-75db08afba74",
+                    "x": 833.5,
+                    "y": 27.40625,
+                    "width": 41,
+                    "height": 12,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "4d574589-cb33-41de-97cb-822305cc5d1d",
+                    "x": 549.5,
+                    "y": 1271.40625,
+                    "width": 33,
+                    "height": 17,
+                    "text": "",
+                    "comments": []
+                },
+                {
+                    "id": "bb46e15f-b57a-48cf-9111-8de1ea955b6e",
+                    "x": 145.5,
+                    "y": 621.40625,
+                    "width": 143,
+                    "height": 100,
+                    "text": "",
+                    "comments": []
+                }
+            ],
+            "url": "",
+            "created_by": "guest"
+        }
+    ],
+    "updated_at": "2025-06-29T03:51:52+00:00"
+}

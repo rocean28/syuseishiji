@@ -42,8 +42,14 @@ $blue: blue;
 .align-end {
   align-items: flex-end;
 }
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
 .flex-column {
   flex-direction: column;
+}
+.flex-column-reverse {
+  flex-direction: column-reverse;
 }
 .flex-grow {
   flex-grow: 1;
